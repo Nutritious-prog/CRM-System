@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import nutritious.prog.springdemo.entity.Customer;
 import nutritious.prog.springdemo.service.CustomerService;
@@ -50,6 +51,26 @@ public class CustomerController {
 		
 		return "redirect:/customer/list";
 		
+	}
+	
+	@GetMapping("/showFormForUpdate")
+	public String showFormForUpdate(@RequestParam("customerId") int theId,
+									Model theModel) {
+		
+		Customer theCustomer = customerService.getCustomers(theId);
+		
+		theModel.addAttribute("customer", theCustomer);
+		
+		return "customer-form";
+	}
+	
+	@GetMapping("/delete")
+	public String deleteCustomer(@RequestParam("customerId") int theId,
+									Model theModel) {
+		
+		customerService.deleteCustomer(theId);
+		
+		return "redirect:/customer/list";
 	}
 	
 }
